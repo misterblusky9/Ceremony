@@ -110,7 +110,7 @@ namespace circuits
             // Ceremony
 
             api.RegisterItemClass("customlocatormap", typeof(ItemCustomLocatorMap));
-            api.RegisterItemClass("adminaxe", typeof(ItemAdminAxe));
+            api.RegisterItemClass("AdminAxe", typeof(ItemAdminAxe));
             api.RegisterBlockEntityClass("BEFacade", typeof(BEFacade));
             api.RegisterBlockEntityBehaviorClass("BEBFacade", typeof(BEBFacade));
             api.RegisterBlockClass("BlockFacade", typeof(BlockFacade));

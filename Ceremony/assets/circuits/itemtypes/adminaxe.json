@@ -1,7 +1,7 @@
 {
   "code": "adminaxe",
 
-  "class": "ItemAdminAxe",
+  "class": "AdminAxe",
   "tool": "axe",
   "tags": [ "tool", "tool-axe", "weapon", "weapon-melee" ],
 
@@ -16,7 +16,7 @@
   },
 
   "shape": {
-    "base": "creativetweaks:item/tool/adminaxe"
+    "base": "circuits:item/tool/adminaxe"
   },
 
   "attributes": {
