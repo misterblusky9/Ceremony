@@ -1,5 +1,6 @@
 ﻿{
-  "game:tabname-circuits": "Ceremony",
+  "game:tabname-circuits": "Circuitry (ceremony)",
+  "game:tabname-ceremony": "Ceremony",
   "item-circuitwand": "Jonas Soldering Wand",
   "item-circuitwrench": "Jonas Wrench",
   "item-key": "Key",
@@ -8,24 +9,26 @@
 
   "item-key-copper": "Copper Key",
   "item-key-brass": "Brass Key",
+  "item-key-lead": "Lead Key",
+  "item-key-bismuth": "Bismuth Key",
   "item-key-tinbronze": "Tin Bronze Key",
   "item-key-bismuthbronze": "Bismuth Bronze Key",
   "item-key-blackbronze": "Black Bronze Key",
   "item-key-gold": "Gold Key",
   "item-key-silver": "Silver Key",
   "item-key-iron": "Iron Key",
-  "item-key-meteoriciron": "Meteoric Iron Key",
   "item-key-steel": "Steel Key",
-  "item-key-chromium": "Chromium Key",
-  "item-key-cupronickel": "Cupronickel Key",
-  "item-key-electrum": "Electrum Key",
-  "item-key-lead": "Lead Key",
-  "item-key-bismuth": "Bismuth Key",
-  "item-key-titanium": "Titanium Key",
-  "item-key-platinum": "Platinum Key",
-  "item-key-zinc": "Zinc Key",
-  "item-key-uranium": "Uranium Key",
-  "item-key-corroded": "Corroded Key",
+  "item-key-molybdochalkos": "Molybdochalkos Key",
+  "item-key-meteoriciron": "Meteoric Key",
+
+  "item-key-malachite": "Malachite Key",
+  "item-key-cinnabar": "Cinnabar Key",
+  "item-key-amethyst": "Amethyst Key",
+  "item-key-clearquartz": "Clear Quartz Key",
+  "item-key-lapislazuli": "Lapis Lazuli Key",
+  "item-key-olivine": "Olivine Key",
+
+  "item-key-jonas": "Temporal Key",
 
   "block-circuitbutton-up-off": "Button (OFF)",
   "block-circuitbutton-down-off": "Button (OFF)",
@@ -140,9 +143,14 @@
   "block-pushbutton-west": "Push Button",
   "block-pushbutton-up": "Push Button",
   "block-pushbutton-down": "Push Button",
+  "block-effectorlightning-off": "Lightning Effector (OFF)",
+  "block-effectorlightning-on": "Lightning Effector (ON)",
+  "block-proximitysensor-off": "Proximity Sensor (OFF)",
+  "block-proximitysensor-on": "Proximity Sensor (ON)",
 
-  "block-facade": "Facade (WIP)",
-  "item-adminaxe": "Admin axe"
+  "block-facade": "Façade",
+  "item-adminaxe": "Admin axe",
+  "item-adminshears": "Admin shears"
 
 
 }

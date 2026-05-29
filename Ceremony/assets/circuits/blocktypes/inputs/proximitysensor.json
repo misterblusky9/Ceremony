@@ -1,5 +1,5 @@
 {
-  "code": "circuitdelay",
+  "code": "proximitysensor",
   "entityClass": "Generic",
   "variantgroups": [
     {
@@ -18,30 +18,20 @@
 
   "entityBehaviors": [
     {
-      "name": "CNetDelay",
+      "name": "CNetProximitySensor",
       "properties": {
-        "delayMs": 500
+        "radius": 12,
+        "checkIntervalSeconds": 0.25,
+        "playerNames": "",
+        "filterMode": false
       }
     }
   ],
-
   "creativeinventory": {
     "circuits": [ "*-off" ]
   },
   "vertexFlags": {
     "glowLevel": 128
-  },
-  "lightHsvByType": {
-    "*-off": [
-      0,
-      0,
-      0
-    ],
-    "*-on": [
-      8,
-      2,
-      21
-    ]
   },
   "vertexFlagsByType": {
     "*-off": { "glowLevel": 0 },
@@ -50,11 +40,11 @@
 
   "shape": { "base": "game:block/basic/cube" },
   "texturesByType": {
-    "*on*": {
-      "all": { "base": "circuits:block/cell/cell-inverted-jonas" }
+    "*-off": {
+      "all": { "base": "circuits:block/logic/proximity-sensor-off" }
     },
-    "*off*": {
-      "all": { "base": "circuits:block/cell/cell-inverted-dead" }
+    "*-on": {
+      "all": { "base": "circuits:block/logic/proximity-sensor-on" }
     }
   },
 

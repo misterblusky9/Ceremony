@@ -104,23 +104,21 @@ namespace circuits
             api.RegisterBlockEntityBehaviorClass("CNetDelay", typeof(CircuitDelayBehavior));
             api.RegisterBlockEntityBehaviorClass("CNetSRLatch", typeof(CircuitSRLatchBehavior));
             api.RegisterBlockEntityBehaviorClass("CNetClock", typeof(CircuitClockBehavior));
+            api.RegisterBlockEntityBehaviorClass("CNetEffectorLightning", typeof(CircuitEffectorLightning));
+            api.RegisterBlockEntityBehaviorClass("CNetProximitySensor", typeof(CircuitProximitySensor));
             api.RegisterBlockBehaviorClass("CNetDeferInteract", typeof(BBDeferInteract));
             api.RegisterItemClass("CircuitWand", typeof(ItemCircuitWand));
             api.RegisterItemClass("CircuitWrench", typeof(ItemCircuitWrench));
 
             // Ceremony
-
             api.RegisterItemClass("customlocatormap", typeof(ItemCustomLocatorMap));
+            api.RegisterItemClass("AdminShears", typeof(ItemAdminShears));
             api.RegisterItemClass("AdminAxe", typeof(ItemAdminAxe));
             api.RegisterBlockEntityClass("BEFacade", typeof(BEFacade));
             api.RegisterBlockEntityBehaviorClass("BEBFacade", typeof(BEBFacade));
             api.RegisterBlockClass("BlockFacade", typeof(BlockFacade));
             api.RegisterBlockBehaviorClass("BBFacade", typeof(BBFacade)); 
-            
             api.RegisterBlockEntityClass("landmine", typeof(BlockEntityLandmine));
-
-            api.RegisterBlockEntityBehaviorClass("CallLightningOnPlayerRange", typeof(BEBehaviorCallLightningOnPlayerRange));
-
 
             new Harmony("circuits").PatchAll();
 

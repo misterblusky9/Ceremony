@@ -176,11 +176,18 @@ namespace circuits
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
         {
             base.GetBlockInfo(forPlayer, dsc);
-            dsc.AppendLine($"Delay: {FormatDuration(delayMs)}");
+            dsc.AppendLine($"Delay: {FormatDelay(delayMs)}");
             if (pending.Count > 0)
                 dsc.AppendLine($"State: {(currentOutput ? "ON" : "OFF")} ({pending.Count} queued)");
             else
                 dsc.AppendLine(currentOutput ? "State: ON" : "State: OFF");
+        }
+
+        private static string FormatDelay(int ms)
+        {
+            if (ms < 1000) return $"{ms}ms";
+            if (ms % 1000 == 0) return $"{ms / 1000}s";
+            return $"{ms / 1000.0:0.#}s";
         }
 
         // ── Carry-data settings ──────────────────────────────────────

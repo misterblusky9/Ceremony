@@ -155,7 +155,7 @@ namespace circuits
             {
                 if (!IsEntityMatch(ent)) continue;
 
-                var p = ent.SidedPos;
+                var p = ent.Pos;
                 var cb = ent.CollisionBox;
 
                 if (p.Y < minY || p.Y > maxY) continue;

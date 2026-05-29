@@ -1308,6 +1308,8 @@ namespace circuits
 
         static bool TryProjectOnScreen(BlockPos pos, Vec3f renderOffset, ICoreClientAPI capi, out Vec3d scr)
         {
+            scr = default;
+
             double ox = renderOffset?.X ?? 0;
             double oy = renderOffset?.Y ?? 0;
             double oz = renderOffset?.Z ?? 0;

@@ -10,7 +10,7 @@
     }
   ],
 
-  "creativeinventory": { "general": [ "*disarmed" ] },
+  "creativeinventory": { "ceremony": [ "*disarmed" ] },
 
   "drawtype": "json",
   "sideOpaque": {

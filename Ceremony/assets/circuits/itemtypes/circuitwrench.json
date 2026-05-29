@@ -85,9 +85,7 @@
     }
   },
   "creativeinventory": {
-    "circuits": [
-      "*"
-    ]
+    "circuits": [ "*" ]
   },
   "fpHandTransform": {
     "translation": {

@@ -6,7 +6,7 @@
   },
   "creativeinventory": {
     "general": [ "*" ],
-    "circuits": [ "*" ]
+    "ceremony": [ "*" ]
   },
   "variantgroups": [
     {
@@ -14,31 +14,52 @@
       "states": [
         "copper",
         "brass",
-        "chromium",
-        "cupronickel",
-        "electrum",
         "lead",
         "bismuth",
-        "titanium",
-        "platinum",
         "tinbronze",
         "bismuthbronze",
         "blackbronze",
         "gold",
         "silver",
         "iron",
-        "meteoriciron",
         "steel",
-        "zinc",
-        "uranium",
-        "corroded"
+        "molybdochalkos",
+        "meteoriciron",
+        "malachite",
+        "cinnabar",
+        "amethyst",
+        "clearquartz",
+        "lapislazuli",
+        "olivine",
+        "jonas"
       ]
     }
   ],
   "shape": { "base": "circuits:item/key_metal" },
   "texturesByType": {
-    "*corroded*": {
-      "brass": { "base": "game:item/resource/corroded/normal3" }
+    "*malachite*": {
+      "brass": { "base": "game:item/resource/nugget/malachite" }
+    },
+    "*cinnabar*": {
+      "brass": { "base": "game:item/resource/ungraded/cinnabar" }
+    },
+    "*amethyst*": {
+      "brass": { "base": "game:item/resource/ungraded/amethyst" }
+    },
+    "*clearquartz*": {
+      "brass": { "base": "game:item/resource/ungraded/clearquartz" }
+    },
+    "*lapislazuli*": {
+      "brass": { "base": "game:item/resource/ungraded/lapislazuli" }
+    },
+    "*olivine*": {
+      "brass": { "base": "game:item/resource/ungraded/olivine" }
+    },
+    "*jonas*": {
+      "brass": { "base": "game:item/resource/temporalgear" }
+    },
+    "*meteoriciron*": {
+      "brass": { "base": "game:item/tool/shield/metal/meteoriciron" }
     },
     "*": {
       "brass": { "base": "game:item/resource/plate/{metal}" }

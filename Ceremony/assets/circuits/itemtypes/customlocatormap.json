@@ -4,7 +4,7 @@
   "maxstacksize": 1,
   "creativeinventory": {
     "general": [ "*map-blank" ],
-    "circuits": [ "*map-blank" ]
+    "ceremony": [ "*map-blank" ]
   },
   "variantgroups": [
     {

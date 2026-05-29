@@ -136,8 +136,6 @@ namespace circuits
                 else if (gui.HasUniform("tex")) samplerName = "tex";
                 else if (gui.HasUniform("tex0")) samplerName = "tex0";
             }
-
-            capi.ShowChatMessage("[circuits] circle texture loaded");
         }
 
         public void OnRenderFrame(float dt, EnumRenderStage stage)

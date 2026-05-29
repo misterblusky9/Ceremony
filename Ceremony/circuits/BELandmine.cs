@@ -156,7 +156,7 @@ namespace cbnormalizer
                 if (ents[i] is not Vintagestory.API.Common.EntityPlayer ep) continue;
                 if (!ep.Alive) continue;
 
-                var p = ep.SidedPos;
+                var p = ep.Pos;
 
                 if (p.Y < minY || p.Y > maxY) continue;
 

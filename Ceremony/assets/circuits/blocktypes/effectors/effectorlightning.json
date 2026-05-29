@@ -1,0 +1,115 @@
+{
+  "code": "effectorlightning",
+  "entityClass": "Generic",
+  "variantgroups": [
+    {
+      "code": "state",
+      "states": [ "off", "on" ]
+    }
+  ],
+  "behaviors": [
+    {
+      "name": "CNetDeferInteract",
+      "properties": {
+        "bypassItems": [ "circuits:circuitwand" ]
+      }
+    }
+  ],
+  "entityBehaviors": [
+    {
+      "name": "CNetEffectorLightning",
+      "properties": {
+        "range": 12,
+        "offsetRange": 0
+      }
+    }
+  ],
+  "creativeinventory": {
+    "circuits": [ "*-off" ]
+  },
+  "shape": {
+    "base": "game:block/metal/lightning-rod"
+  },
+  "texturesByType": {
+    "*-off": {
+      "copper": {
+        "base": "circuits:block/glow/glow-red"
+      }
+    },
+    "*-on": {
+      "copper": {
+        "base": "circuits:block/glow/glow-jonas"
+      }
+    }
+  },
+  "vertexFlagsByType": {
+    "*-off": { "glowLevel": 0 },
+    "*-on": { "glowLevel": 128 }
+  },
+  "blockmaterial": "Metal",
+  "resistance": 5,
+  "drawtype": "json",
+  "faceCullMode": "NeverCull",
+  "emitSideAo": { "all": false },
+  "sidesolid": {
+    "all": false
+  },
+  "sideopaque": {
+    "all": false
+  },
+  "sounds": {
+    "place": "game:block/anvil",
+    "walk": "game:walk/stone"
+  },
+  "collisionSelectionBox": {
+    "x1": 0.25,
+    "y1": 0,
+    "z1": 0.25,
+    "x2": 0.75,
+    "y2": 1,
+    "z2": 0.75
+  },
+  "guiTransform": {
+    "rotation": {
+      "x": 34,
+      "y": -3,
+      "z": -35
+    },
+    "origin": {
+      "x": 0.5,
+      "y": 1,
+      "z": 0.5
+    }
+  },
+  "groundTransform": {
+    "translation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "rotation": {
+      "x": 17,
+      "y": 0,
+      "z": 90
+    },
+    "origin": {
+      "x": 0.46,
+      "y": 0,
+      "z": 0.5
+    },
+    "scale": 2.2
+  },
+  "tpHandTransform": {
+    "translation": {
+      "x": -1,
+      "y": -0.9,
+      "z": -0.9
+    },
+    "rotation": {
+      "x": -68,
+      "y": -34,
+      "z": -87
+    },
+    "scale": 0.54
+  }
+}
