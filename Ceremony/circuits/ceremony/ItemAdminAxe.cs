@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 
 #nullable disable
@@ -359,6 +361,14 @@ public class ItemAdminAxe : ItemAxe
         return found;
     }
 
+    private static bool HasAdminBypass(IPlayer player)
+    {
+        if (player?.WorldData?.CurrentGameMode == EnumGameMode.Creative) return true;
+
+        return player is IServerPlayer serverPlayer
+            && serverPlayer.HasPrivilege(Privilege.controlserver);
+    }
+
     private void BreakPositions(
         IWorldAccessor world,
         IPlayer player,
@@ -366,9 +376,11 @@ public class ItemAdminAxe : ItemAxe
         float dropQuantityMultiplier
     )
     {
+        bool bypassClaims = HasAdminBypass(player);
+
         foreach (BlockPos pos in positions)
         {
-            if (!world.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak))
+            if (!bypassClaims && !world.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak))
             {
                 continue;
             }

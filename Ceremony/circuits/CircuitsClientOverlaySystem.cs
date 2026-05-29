@@ -22,6 +22,8 @@ namespace circuits
 
         const float PortVerticalSpacingPx = 58f;
         const float WireShowDist = 50f;
+        const int MaxRenderedLinks = 256;
+        const int MaxEndpointNodes = 128;
 
         const float ConeMaxDist = 12f;
 
@@ -46,6 +48,7 @@ namespace circuits
 
         // Cache for render offsets to avoid repeated BE queries
         readonly Dictionary<string, Vec3f> offsetCache = new(256);
+        readonly Dictionary<Guid, BlockPos> recentNodePositions = new(256);
 
         readonly struct DisplayFrom
         {
@@ -543,12 +546,25 @@ namespace circuits
             if (ms?.ClientChannel == null) return;
 
             Debug($"SendLink from={fromNodeId}:{fromPortId} -> to={toNodeId}:{toPortId}");
+            recentNodePositions.TryGetValue(fromNodeId, out var fromPos);
+            recentNodePositions.TryGetValue(toNodeId, out var toPos);
+            bool hasPositions = fromPos != null && toPos != null;
+
             ms.ClientChannel.SendPacket(new CircuitsRequestLink
             {
                 FromNodeIdN = fromNodeId.ToString("N"),
                 FromPortId = fromPortId,
                 ToNodeIdN = toNodeId.ToString("N"),
-                ToPortId = toPortId
+                ToPortId = toPortId,
+                FromX = fromPos?.X ?? 0,
+                FromY = fromPos?.Y ?? 0,
+                FromZ = fromPos?.Z ?? 0,
+                FromDim = fromPos?.dimension ?? 0,
+                ToX = toPos?.X ?? 0,
+                ToY = toPos?.Y ?? 0,
+                ToZ = toPos?.Z ?? 0,
+                ToDim = toPos?.dimension ?? 0,
+                HasPositions = hasPositions
             });
         }
 
@@ -680,6 +696,8 @@ namespace circuits
                 if (scrOffset.X < -MarginPx || scrOffset.X > capi.Render.FrameWidth + MarginPx) return;
                 if (scrOffset.Y < -MarginPx || scrOffset.Y > capi.Render.FrameHeight + MarginPx) return;
 
+                recentNodePositions[nodeBeh.NodeID] = pos.Copy();
+
                 nodes.Add(new NodeMarker
                 {
                     BlockPos = pos,
@@ -777,10 +795,17 @@ namespace circuits
                     }
                 }
 
-                var rs = GetOrBuildRouteState(links);
+                var visibleLinks = BuildVisibleLinkList(links, plrEnt.Pos.Dimension, plrEnt.CameraPos, WireShowDist, focused);
+                if (visibleLinks.Count > MaxRenderedLinks)
+                {
+                    visibleLinks.Sort((a, b) => LinkDistanceScore(a, plrEnt.CameraPos).CompareTo(LinkDistanceScore(b, plrEnt.CameraPos)));
+                    visibleLinks.RemoveRange(MaxRenderedLinks, visibleLinks.Count - MaxRenderedLinks);
+                }
+
+                var rs = GetOrBuildRouteState(visibleLinks);
                 rs.Occ.Clear();
 
-                var ordered = links
+                var ordered = visibleLinks
                     .OrderBy(l => $"{l.FromX},{l.FromY},{l.FromZ},{l.FromDim}|{l.FromPortId}->{l.ToX},{l.ToY},{l.ToZ},{l.ToDim}|{l.ToPortId}")
                     .ToList();
 
@@ -893,9 +918,10 @@ namespace circuits
                 var have = new HashSet<string>(nodes.Count);
                 for (int i = 0; i < nodes.Count; i++) have.Add(Key(nodes[i].BlockPos));
 
-                for (int i = 0; i < links.Count; i++)
+                int endpointNodesAdded = 0;
+                for (int i = 0; i < ordered.Count && endpointNodesAdded < MaxEndpointNodes; i++)
                 {
-                    var l = links[i];
+                    var l = ordered[i];
 
                     var aPos = new BlockPos(l.FromX, l.FromY, l.FromZ, l.FromDim);
                     var bPos = new BlockPos(l.ToX, l.ToY, l.ToZ, l.ToDim);
@@ -905,7 +931,8 @@ namespace circuits
 
                     void AddEndpointNode(BlockPos p)
                     {
-                        if (p == null) return;
+                        if (p == null || p.dimension != plrEnt.Pos.Dimension) return;
+                        if (plrEnt.CameraPos.SquareDistanceTo(p.X + 0.5, p.Y + 0.5, p.Z + 0.5) > show2) return;
                         string k = Key(p);
                         if (have.Contains(k)) return;
 
@@ -929,6 +956,7 @@ namespace circuits
                         });
 
                         have.Add(k);
+                        endpointNodesAdded++;
                     }
                 }
             }
@@ -956,6 +984,38 @@ namespace circuits
                 lastPickedPort = pm;
             else
                 lastPickedPort = null;
+        }
+
+
+        static List<CircuitsLinkDelta> BuildVisibleLinkList(List<CircuitsLinkDelta> linkList, int dimension, Vec3d cameraPos, float showDist, BlockPos focused)
+        {
+            var result = new List<CircuitsLinkDelta>(Math.Min(linkList?.Count ?? 0, MaxRenderedLinks));
+            if (linkList == null || linkList.Count == 0) return result;
+
+            double show2 = showDist * showDist;
+            for (int i = 0; i < linkList.Count; i++)
+            {
+                var l = linkList[i];
+                if (l == null) continue;
+                if (l.FromDim != dimension || l.ToDim != dimension) continue;
+
+                bool touchesFocused = focused != null
+                    && ((l.FromX == focused.X && l.FromY == focused.Y && l.FromZ == focused.Z && l.FromDim == focused.dimension)
+                        || (l.ToX == focused.X && l.ToY == focused.Y && l.ToZ == focused.Z && l.ToDim == focused.dimension));
+
+                if (!touchesFocused && LinkDistanceScore(l, cameraPos) > show2) continue;
+
+                result.Add(l);
+            }
+
+            return result;
+        }
+
+        static double LinkDistanceScore(CircuitsLinkDelta l, Vec3d cameraPos)
+        {
+            double da2 = cameraPos.SquareDistanceTo(l.FromX + 0.5, l.FromY + 0.5, l.FromZ + 0.5);
+            double db2 = cameraPos.SquareDistanceTo(l.ToX + 0.5, l.ToY + 0.5, l.ToZ + 0.5);
+            return Math.Min(da2, db2);
         }
 
         static void BuildRoute3D_Routed(
@@ -1252,8 +1312,12 @@ namespace circuits
             double oy = renderOffset?.Y ?? 0;
             double oz = renderOffset?.Z ?? 0;
 
+            Vec3d world = new Vec3d(pos.X + 0.5 + ox, pos.Y + 0.5 + oy, pos.Z + 0.5 + oz);
+            WorldToCamera(capi.Render.PerspectiveViewMat, world.X, world.Y, world.Z, out _, out _, out double cz);
+            if (cz >= 0) return false;
+
             scr = MatrixToolsd.Project(
-                new Vec3d(pos.X + 0.5 + ox, pos.Y + 0.5 + oy, pos.Z + 0.5 + oz),
+                world,
                 capi.Render.PerspectiveProjectionMat,
                 capi.Render.PerspectiveViewMat,
                 capi.Render.FrameWidth,
