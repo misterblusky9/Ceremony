@@ -1,0 +1,104 @@
+{
+  "code": "adminaxe",
+
+  "class": "ItemAdminAxe",
+  "tool": "axe",
+  "tags": [ "tool", "tool-axe", "weapon", "weapon-melee" ],
+
+  "damagedby": [],
+
+  "creativeinventory": {
+    "general": [ "*" ],
+    "items": [ "*" ],
+    "tools": [ "*" ],
+    "meta": [ "*" ],
+    "circuits": [ "*" ]
+  },
+
+  "shape": {
+    "base": "creativetweaks:item/tool/adminaxe"
+  },
+
+  "attributes": {
+    "heldItemPitchFollow": 0.9,
+    "handbook": {
+      "groupBy": [ "adminaxe" ]
+    },
+    "attachableToEntity": { "categoryCode": "toolholding" }
+  },
+
+  "behaviors": [
+    {
+      "name": "AnimationAuthoritative",
+      "properties": { "onlyOnEntity": true }
+    },
+    { "name": "Buffable" }
+  ],
+
+  "heldRightReadyAnimation": "axeready",
+  "heldTpHitAnimation": "axechop",
+
+  "attackRange": 10,
+  "tooltier": 99,
+
+  "miningspeed": {
+    "wood": 999,
+    "plant": 999,
+    "leaves": 999
+  },
+
+  "durability": 2147483647,
+  "attackpower": 300,
+
+  "guiTransform": {
+    "translation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "rotation": {
+      "x": -63,
+      "y": -123,
+      "z": -180
+    },
+    "origin": {
+      "x": 0.61,
+      "y": 0,
+      "z": 0.47
+    },
+    "scale": 1.58
+  },
+
+  "groundTransform": {
+    "translation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "origin": {
+      "x": 0.5,
+      "y": 0,
+      "z": 0.5
+    },
+    "scale": 3.6
+  },
+
+  "tpHandTransform": {
+    "translation": {
+      "x": -0.43,
+      "y": -0.52,
+      "z": -0.07
+    },
+    "rotation": {
+      "x": 90,
+      "y": 0,
+      "z": 0
+    },
+    "scale": 0.95
+  }
+}

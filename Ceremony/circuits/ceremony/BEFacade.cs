@@ -1,12 +1,10 @@
 ﻿using Vintagestory.API.Common;
 
-namespace circuits
+namespace circuits;
+public class BEFacade : BlockEntity
 {
-    public class BEFacade : BlockEntity
+    public override void Initialize(ICoreAPI api)
     {
-        public override void Initialize(ICoreAPI api)
-        {
-            base.Initialize(api);
-        }
+        base.Initialize(api);
     }
 }

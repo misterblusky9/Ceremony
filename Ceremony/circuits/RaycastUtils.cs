@@ -4,7 +4,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 #nullable disable
 
-namespace Ceremony.src
+namespace Ceremony.circuits
 {
     public static class RaycastUtils
     {

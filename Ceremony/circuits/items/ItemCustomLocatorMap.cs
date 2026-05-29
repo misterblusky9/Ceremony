@@ -39,9 +39,21 @@ namespace circuits
                 if (!props.IsWritten && blockSel != null)
                 {
                     var capi = api as ICoreClientAPI;
+                    var channel = api.ModLoader.GetModSystem<CircuitsModSystem>().ClientChannel;
+                    string currentVariant = slot.Itemstack.Item.Variant["type"] ?? "map-blank";
 
-
-                    }
+                    var dlg = new GuiDialogLocatorEditor(capi, wml, props, currentVariant, (newProps, variantType) =>
+                    {
+                        channel.SendPacket(new EditLocatorPacket
+                        {
+                            WaypointText = newProps.WaypointText,
+                            WaypointIcon = newProps.WaypointIcon,
+                            WaypointColorSwatch = newProps.WaypointColorSwatch,
+                            VariantType = variantType
+                        });
+                    });
+                    dlg.TryOpen();
+                }
 
                 return;
             }
@@ -137,18 +149,18 @@ namespace circuits
             bool written = tree.GetBool("IsWritten", false);
             if (!written)
             {
-                return Lang.Get("loremaster:item-customlocatormap-blank-name");
+                return Lang.Get("circuits:item-customlocatormap-blank-name");
             }
 
             string wpName = tree.GetString("WaypointText", null);
 
             if (string.IsNullOrWhiteSpace(wpName))
             {
-                wpName = Lang.Get("loremaster:item-customlocatormap-blank-name");
+                wpName = Lang.Get("circuits:item-customlocatormap-blank-name");
             }
 
             // Localized template
-            return Lang.Get("loremaster:item-customlocatormap-name", wpName);
+            return Lang.Get("circuits:item-customlocatormap-name", wpName);
         }
 
     }

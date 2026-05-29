@@ -90,6 +90,7 @@ namespace circuits
         public override void Start(ICoreAPI api)
         {
             base.Start(api);
+
             api.RegisterBlockEntityBehaviorClass("CNetDoor", typeof(CircuitDoorBehavior));
             api.RegisterBlockEntityBehaviorClass("CNetVariants", typeof(CircuitVariantBehavior));
             api.RegisterBlockEntityBehaviorClass("CNetMemory", typeof(CircuitVariantBehavior));
@@ -109,6 +110,7 @@ namespace circuits
             // Ceremony
 
             api.RegisterItemClass("customlocatormap", typeof(ItemCustomLocatorMap));
+            api.RegisterItemClass("adminaxe", typeof(ItemAdminAxe));
             api.RegisterBlockEntityClass("BEFacade", typeof(BEFacade));
             api.RegisterBlockEntityBehaviorClass("BEBFacade", typeof(BEBFacade));
             api.RegisterBlockClass("BlockFacade", typeof(BlockFacade));
@@ -130,7 +132,8 @@ namespace circuits
                     .RegisterMessageType<CircuitsSnapshot>()
                     .RegisterMessageType<CircuitsRequestLink>()
                     .RegisterMessageType<CircuitsRequestClearPort>()
-                    .RegisterMessageType<CircuitsRequestSnapshot>();
+                    .RegisterMessageType<CircuitsRequestSnapshot>()
+                    .RegisterMessageType<EditLocatorPacket>();
             }
             else
             {
@@ -141,7 +144,8 @@ namespace circuits
                     .RegisterMessageType<CircuitsSnapshot>()
                     .RegisterMessageType<CircuitsRequestLink>()
                     .RegisterMessageType<CircuitsRequestClearPort>()
-                    .RegisterMessageType<CircuitsRequestSnapshot>();
+                    .RegisterMessageType<CircuitsRequestSnapshot>()
+                    .RegisterMessageType<EditLocatorPacket>();
             }
         }
 
@@ -185,6 +189,7 @@ namespace circuits
             sch.SetMessageHandler<CircuitsRequestLink>(OnRequestLink);
             sch.SetMessageHandler<CircuitsRequestClearPort>(OnRequestClearPort);
             sch.SetMessageHandler<CircuitsRequestSnapshot>(OnRequestSnapshot);
+            sch.SetMessageHandler<EditLocatorPacket>(OnEditLocatorPacket);
         }
 
         const string SaveKey = "circuits:savedata";
@@ -804,6 +809,29 @@ namespace circuits
             }
 
             sch.SendPacket(snap, player);
+        }
+
+        private void OnEditLocatorPacket(IServerPlayer player, EditLocatorPacket packet)
+        {
+            var slot = player.InventoryManager.ActiveHotbarSlot;
+            if (slot?.Itemstack?.Item is not ItemCustomLocatorMap) return;
+
+            var attr = slot.Itemstack.Attributes;
+            if (packet.WaypointText != null) attr.SetString("WaypointText", packet.WaypointText);
+            if (packet.WaypointIcon != null) attr.SetString("WaypointIcon", packet.WaypointIcon);
+            if (packet.WaypointColorSwatch.HasValue) attr.SetInt("WaypointColorSwatch", packet.WaypointColorSwatch.Value);
+
+            if (!string.IsNullOrEmpty(packet.VariantType))
+            {
+                var newCode = slot.Itemstack.Item.Code.CopyWithPath(
+                    slot.Itemstack.Item.Code.Path.Replace(
+                        slot.Itemstack.Item.Variant["type"], packet.VariantType));
+                var newItem = sapi.World.GetItem(newCode);
+                if (newItem != null)
+                    slot.Itemstack = new ItemStack(newItem, 1) { Attributes = attr };
+            }
+
+            slot.MarkDirty();
         }
 
         public bool TryRemoveLink(PortKey from, PortKey to, out string reason)

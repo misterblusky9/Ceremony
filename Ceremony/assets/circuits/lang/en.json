@@ -1,5 +1,5 @@
 ﻿{
-  "game:tabname-circuits": "Circuitry",
+  "game:tabname-circuits": "Ceremony",
   "item-circuitwand": "Jonas Soldering Wand",
   "item-circuitwrench": "Jonas Wrench",
   "item-key": "Key",
@@ -26,7 +26,6 @@
   "item-key-zinc": "Zinc Key",
   "item-key-uranium": "Uranium Key",
   "item-key-corroded": "Corroded Key",
-
 
   "block-circuitbutton-up-off": "Button (OFF)",
   "block-circuitbutton-down-off": "Button (OFF)",
@@ -101,6 +100,49 @@
   "block-circuitclock-off": "Signal Clock (OFF)",
   "block-circuitclock-on": "Signal Clock (ON)",
 
-  "block-facade": "Facade (WIP)"
+  "block-celllamp-off": "Cell Lamp (OFF)",
+  "block-celllamp-on": "Cell Lamp (ON)",
+
+  "block-floorlever-1-north": "Floor Lever (1)",
+  "block-floorlever-1-south": "Floor Lever (1)",
+  "block-floorlever-1-east": "Floor Lever (1)",
+  "block-floorlever-1-west": "Floor Lever (1)",
+  "block-floorlever-2-north": "Floor Lever (2)",
+  "block-floorlever-2-south": "Floor Lever (2)",
+  "block-floorlever-2-east": "Floor Lever (2)",
+  "block-floorlever-2-west": "Floor Lever (2)",
+  "block-floorlever-3-north": "Floor Lever (3)",
+  "block-floorlever-3-south": "Floor Lever (3)",
+  "block-floorlever-3-east": "Floor Lever (3)",
+  "block-floorlever-3-west": "Floor Lever (3)",
+  "block-floorlever-4-north": "Floor Lever (4)",
+  "block-floorlever-4-south": "Floor Lever (4)",
+  "block-floorlever-4-east": "Floor Lever (4)",
+  "block-floorlever-4-west": "Floor Lever (4)",
+
+  "block-handcrank-north": "Hand Crank",
+  "block-handcrank-south": "Hand Crank",
+  "block-handcrank-east": "Hand Crank",
+  "block-handcrank-west": "Hand Crank",
+  "block-handcrank-up": "Hand Crank",
+  "block-handcrank-down": "Hand Crank",
+
+  "block-pullswitch-north": "Pull Switch",
+  "block-pullswitch-south": "Pull Switch",
+  "block-pullswitch-east": "Pull Switch",
+  "block-pullswitch-west": "Pull Switch",
+  "block-pullswitch-up": "Pull Switch",
+  "block-pullswitch-down": "Pull Switch",
+
+  "block-pushbutton-north": "Push Button",
+  "block-pushbutton-south": "Push Button",
+  "block-pushbutton-east": "Push Button",
+  "block-pushbutton-west": "Push Button",
+  "block-pushbutton-up": "Push Button",
+  "block-pushbutton-down": "Push Button",
+
+  "block-facade": "Facade (WIP)",
+  "item-adminaxe": "Admin axe"
+
 
 }
