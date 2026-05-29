@@ -20,7 +20,7 @@
     {
       "name": "CNetClock",
       "properties": {
-        "intervalMs": 5000,
+        "intervalMs": 3000,
         "pulseMs": 200
       }
     }

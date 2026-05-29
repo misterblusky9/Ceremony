@@ -106,6 +106,7 @@ namespace circuits
             api.RegisterBlockEntityBehaviorClass("CNetClock", typeof(CircuitClockBehavior));
             api.RegisterBlockEntityBehaviorClass("CNetEffectorLightning", typeof(CircuitEffectorLightning));
             api.RegisterBlockEntityBehaviorClass("CNetProximitySensor", typeof(CircuitProximitySensor));
+            api.RegisterBlockEntityBehaviorClass("CNetCommand", typeof(CircuitCommandBehavior));
             api.RegisterBlockBehaviorClass("CNetDeferInteract", typeof(BBDeferInteract));
             api.RegisterItemClass("CircuitWand", typeof(ItemCircuitWand));
             api.RegisterItemClass("CircuitWrench", typeof(ItemCircuitWrench));

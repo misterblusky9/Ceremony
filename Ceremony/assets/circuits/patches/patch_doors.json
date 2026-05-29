@@ -36,21 +36,26 @@
     }
   },
   {
-    "file": "game:blocktypes/metal/door",
+    "file": "game:blocktypes/wood/woodtyped/door",
     "op": "add",
-    "path": "/creativeinventory",
-    "value": {}
+    "path": "/creativeinventoryByType/*/circuits",
+    "value": [
+      "door-sleek-windowed-oak",
+      "door-solid-oak",
+      "door-1x3gate-oak",
+      "door-2x2gate-oak",
+      "door-2x3gate-oak",
+      "door-2x4gate-oak"
+    ]
   },
   {
     "file": "game:blocktypes/metal/door",
     "op": "add",
-    "path": "/creativeinventory/circuits",
-    "value": [ "*" ]
-  },
-  {
-    "file": "game:blocktypes/metal/door*",
-    "op": "add",
-    "path": "/creativeinventory/circuits",
-    "value": [ "*" ]
+    "path": "/creativeinventoryByType/*/circuits",
+    "value": [
+      "door-1x2heavy-aged",
+      "door-1x3heavy-aged",
+      "door-2x4heavy-aged"
+    ]
   }
 ]
