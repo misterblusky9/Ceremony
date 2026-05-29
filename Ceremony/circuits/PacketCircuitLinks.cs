@@ -36,6 +36,15 @@ namespace circuits
         [ProtoBuf.ProtoMember(2)] public string FromPortId;
         [ProtoBuf.ProtoMember(3)] public string ToNodeIdN;
         [ProtoBuf.ProtoMember(4)] public string ToPortId;
+        [ProtoBuf.ProtoMember(5)] public int FromX;
+        [ProtoBuf.ProtoMember(6)] public int FromY;
+        [ProtoBuf.ProtoMember(7)] public int FromZ;
+        [ProtoBuf.ProtoMember(8)] public int FromDim;
+        [ProtoBuf.ProtoMember(9)] public int ToX;
+        [ProtoBuf.ProtoMember(10)] public int ToY;
+        [ProtoBuf.ProtoMember(11)] public int ToZ;
+        [ProtoBuf.ProtoMember(12)] public int ToDim;
+        [ProtoBuf.ProtoMember(13)] public bool HasPositions;
     }
 
     [ProtoBuf.ProtoContract]
@@ -63,6 +72,15 @@ namespace circuits
         [ProtoBuf.ProtoMember(2)] public string FromPortId;
         [ProtoBuf.ProtoMember(3)] public string ToNodeIdN;
         [ProtoBuf.ProtoMember(4)] public string ToPortId;
+        [ProtoBuf.ProtoMember(5)] public int FromX;
+        [ProtoBuf.ProtoMember(6)] public int FromY;
+        [ProtoBuf.ProtoMember(7)] public int FromZ;
+        [ProtoBuf.ProtoMember(8)] public int FromDim;
+        [ProtoBuf.ProtoMember(9)] public int ToX;
+        [ProtoBuf.ProtoMember(10)] public int ToY;
+        [ProtoBuf.ProtoMember(11)] public int ToZ;
+        [ProtoBuf.ProtoMember(12)] public int ToDim;
+        [ProtoBuf.ProtoMember(13)] public bool HasPositions;
     }
 
     [ProtoBuf.ProtoContract]

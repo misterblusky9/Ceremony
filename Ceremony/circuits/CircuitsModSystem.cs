@@ -37,6 +37,7 @@ namespace circuits
 
         public required BlockPos FromPos { get; set; }
         public required BlockPos ToPos { get; set; }
+        public bool HasPositions { get; set; }
 
         public bool Equals(Link other)
             => other != null && From.Equals(other.From) && To.Equals(other.To);
@@ -218,8 +219,9 @@ namespace circuits
                 {
                     From = new PortKey(fromNode, l.FromPortId),
                     To = new PortKey(toNode, l.ToPortId),
-                    FromPos = new BlockPos(0, 0, 0),
-                    ToPos = new BlockPos(0, 0, 0)
+                    FromPos = l.HasPositions ? new BlockPos(l.FromX, l.FromY, l.FromZ, l.FromDim) : new BlockPos(0, 0, 0),
+                    ToPos = l.HasPositions ? new BlockPos(l.ToX, l.ToY, l.ToZ, l.ToDim) : new BlockPos(0, 0, 0),
+                    HasPositions = l.HasPositions
                 });
             }
 
@@ -261,7 +263,16 @@ namespace circuits
                     FromNodeIdN = link.From.NodeID.ToString("N"),
                     FromPortId = link.From.PortID,
                     ToNodeIdN = link.To.NodeID.ToString("N"),
-                    ToPortId = link.To.PortID
+                    ToPortId = link.To.PortID,
+                    FromX = link.FromPos.X,
+                    FromY = link.FromPos.Y,
+                    FromZ = link.FromPos.Z,
+                    FromDim = link.FromPos.dimension,
+                    ToX = link.ToPos.X,
+                    ToY = link.ToPos.Y,
+                    ToZ = link.ToPos.Z,
+                    ToDim = link.ToPos.dimension,
+                    HasPositions = link.HasPositions
                 });
             }
 
@@ -426,6 +437,12 @@ namespace circuits
             if (!Guid.TryParse(msg.FromNodeIdN, out var fromNodeId)) return;
             if (!Guid.TryParse(msg.ToNodeIdN, out var toNodeId)) return;
 
+            if (!nodesByID.ContainsKey(fromNodeId) && msg.HasPositions)
+                TryRegisterNodeAtPosition(fromNodeId, new BlockPos(msg.FromX, msg.FromY, msg.FromZ, msg.FromDim));
+
+            if (!nodesByID.ContainsKey(toNodeId) && msg.HasPositions)
+                TryRegisterNodeAtPosition(toNodeId, new BlockPos(msg.ToX, msg.ToY, msg.ToZ, msg.ToDim));
+
             if (!nodesByID.ContainsKey(fromNodeId))
             {
                 fromPlayer.SendMessage(GlobalConstants.GeneralChatGroup,
@@ -439,6 +456,9 @@ namespace circuits
                 return;
             }
 
+            EnsurePortsRegistered(fromNodeId);
+            EnsurePortsRegistered(toNodeId);
+
             if (!TryCreateLink(fromNodeId, msg.FromPortId, toNodeId, msg.ToPortId, out var reason))
             {
                 fromPlayer.SendMessage(GlobalConstants.GeneralChatGroup,
@@ -446,6 +466,31 @@ namespace circuits
             }
 
             SendGlobalSnapshot(fromPlayer);
+        }
+
+
+        private bool TryRegisterNodeAtPosition(Guid nodeId, BlockPos pos)
+        {
+            if (sapi == null || pos == null) return false;
+
+            var be = sapi.World.BlockAccessor.GetBlockEntity(pos);
+            var node = be?.Behaviors?.FirstOrDefault(b => b is CircuitBehavior cb && cb.NodeID == nodeId) as CircuitBehavior;
+            if (node == null) return false;
+
+            RegisterOrUpdateNode(node.NodeID, be.Pos);
+            RegisterPorts(node.NodeID, CollectPortsFromBE(be));
+            return true;
+        }
+
+        private void EnsurePortsRegistered(Guid nodeId)
+        {
+            if (portsByNode.TryGetValue(nodeId, out var ports) && ports.Count > 0) return;
+            if (!nodesByID.TryGetValue(nodeId, out var nodeRef)) return;
+
+            var be = sapi.World.BlockAccessor.GetBlockEntity(nodeRef.Pos);
+            if (be == null) return;
+
+            RegisterPorts(nodeId, CollectPortsFromBE(be));
         }
 
         public void RemoveAllLinksForNode(Guid nodeId)
@@ -577,8 +622,20 @@ namespace circuits
 
             foreach (var l in links)
             {
-                if (l.From.NodeID == nodeID) l.FromPos = pos.Copy();
-                if (l.To.NodeID == nodeID) l.ToPos = pos.Copy();
+                bool updated = false;
+                if (l.From.NodeID == nodeID)
+                {
+                    l.FromPos = pos.Copy();
+                    updated = true;
+                }
+                if (l.To.NodeID == nodeID)
+                {
+                    l.ToPos = pos.Copy();
+                    updated = true;
+                }
+
+                if (updated && nodesByID.ContainsKey(l.From.NodeID) && nodesByID.ContainsKey(l.To.NodeID))
+                    l.HasPositions = true;
             }
         }
 
@@ -727,7 +784,8 @@ namespace circuits
                 From = new PortKey(fromNodeId, fromPortId),
                 To = new PortKey(toNodeId, toPortId),
                 FromPos = fromRef.Pos.Copy(),
-                ToPos = toRef.Pos.Copy()
+                ToPos = toRef.Pos.Copy(),
+                HasPositions = true
             };
 
             if (!links.Add(link)) { reason = "Link already exists."; return false; }
@@ -790,6 +848,8 @@ namespace circuits
 
             foreach (var l in links)
             {
+                if (!l.HasPositions) continue;
+
                 snap.Links.Add(new CircuitsLinkDelta
                 {
                     FromNodeIdN = l.From.NodeID.ToString("N"),
