@@ -57,5 +57,82 @@
       "door-1x3heavy-aged",
       "door-2x4heavy-aged"
     ]
+  },
+
+
+
+  {
+    "file": "game:blocktypes/stone/ore-graded.json",
+    "op": "replace",
+    "path": "/requiredMiningTierByType/ore-*-limonite-*",
+    "value": 99,
+    "side": "server"
+  },
+  {
+    "file": "game:blocktypes/stone/ore-graded.json",
+    "op": "replace",
+    "path": "/requiredMiningTierByType/ore-*-hematite-*",
+    "value": 99,
+    "side": "server"
+  },
+  {
+    "file": "game:blocktypes/stone/ore-graded.json",
+    "op": "replace",
+    "path": "/requiredMiningTierByType/ore-*-magnetite-*",
+    "value": 99,
+    "side": "server"
+  },
+  {
+    "file": "game:blocktypes/stone/ore-graded.json",
+    "op": "add",
+    "path": "/blockmaterialbytype",
+    "value": {
+      "ore-*-limonite-*": "Mantle",
+      "ore-*-hematite-*": "Mantle",
+      "ore-*-magnetite-*": "Mantle",
+      "*": "Stone"
+    },
+    "side": "server"
+  },
+
+  {
+    "file": "game:blocktypes/stone/looseores.json",
+    "op": "addmerge",
+    "path": "/dropsByType",
+    "value": {
+      "*-limonite-*": [],
+      "*-hematite-*": [],
+      "*-magnetite-*": []
+    },
+    "side": "server"
+  },
+  {
+    "file": "game:blocktypes/stone/looseores.json",
+    "op": "add",
+    "path": "/requiredMiningTierByType",
+    "value": {
+      "*-limonite-*": 99,
+      "*-hematite-*": 99,
+      "*-magnetite-*": 99
+    },
+    "side": "server"
+  },
+  {
+    "file": "game:blocktypes/stone/looseores.json",
+    "op": "add",
+    "path": "/blockmaterialbytype",
+    "value": {
+      "*-limonite-*": "Mantle",
+      "*-hematite-*": "Mantle",
+      "*-magnetite-*": "Mantle",
+      "*": "Stone"
+    },
+    "side": "server"
+  },
+  {
+    "file": "game:blocktypes/stone/ore-graded.json",
+    "op": "remove",
+    "path": "/behaviors/0",
+    "side": "server"
   }
 ]

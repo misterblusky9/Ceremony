@@ -1,0 +1,32 @@
+[
+  {
+    "file": "game:blocktypes/wood/woodtyped/trapdoor",
+    "op": "add",
+    "path": "/behaviors/0",
+    "value": {
+      "name": "CNetDeferInteract",
+      "properties": {
+        "bypassItems": [
+          "circuits:circuitwand"
+        ]
+      }
+    }
+  },
+  {
+    "file": "game:blocktypes/wood/woodtyped/trapdoor",
+    "op": "add",
+    "path": "/entityBehaviors/-",
+    "value": {
+      "name": "CNetTrapdoor",
+      "properties": {}
+    }
+  },
+  {
+    "file": "game:blocktypes/wood/woodtyped/trapdoor",
+    "op": "add",
+    "path": "/creativeinventoryByType/*/circuits",
+    "value": [
+      "trapdoor-solid-oak"
+    ]
+  }
+]
